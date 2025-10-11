@@ -7,7 +7,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @Suite
 @SuiteDisplayName("Model Classes Test Suite (Student and Course)")
 @SelectClasses({
-        StudentAndCourseTest.class
+                StudentTest.class,
+                CourseTest.class
 })
 public class ModelTestsSuite {
 }

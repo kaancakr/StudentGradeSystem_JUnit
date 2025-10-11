@@ -122,8 +122,7 @@ class GradingSystemTest {
                 () -> assertNotNull(system.getStudentById("101")),
                 () -> assertNotNull(system.getStudentById("102")),
                 () -> assertNotNull(system.getStudentById("103")),
-                () -> assertEquals(3, system.getStudentCount())
-        );
+                () -> assertEquals(3, system.getStudentCount()));
         System.out.println("<<< Test finished: addMultipleStudentsAndVerify");
     }
 
@@ -171,5 +170,202 @@ class GradingSystemTest {
     @DisplayName("Calculate student GPA (Not implemented yet)")
     void calculateStudentGPA_Disabled() {
         fail("This test should be disabled");
+    }
+
+    @Test
+    @DisplayName("Should handle assignGrade with invalid parameters")
+    void assignGradeWithInvalidParameters_ShouldThrowException() {
+        System.out.println(">>> Running test: assignGradeWithInvalidParameters_ShouldThrowException");
+
+        System.out.println("Action: Attempting to assign grade to non-existent student.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.assignGrade("999", "CS101", 85.0);
+        });
+        System.out.println("Verified: Exception was thrown for non-existent student.");
+
+        System.out.println("Action: Attempting to assign grade to non-existent course.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.assignGrade("101", "CS999", 85.0);
+        });
+        System.out.println("Verified: Exception was thrown for non-existent course.");
+
+        System.out.println("<<< Test finished: assignGradeWithInvalidParameters_ShouldThrowException");
+    }
+
+    @Test
+    @DisplayName("Should handle assignGrade with invalid score values")
+    void assignGradeWithInvalidScore_ShouldThrowException() {
+        System.out.println(">>> Running test: assignGradeWithInvalidScore_ShouldThrowException");
+        system.enrollStudentToCourse("101", "CS101");
+
+        System.out.println("Action: Attempting to assign negative grade.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.assignGrade("101", "CS101", -10.0);
+        });
+        System.out.println("Verified: Exception was thrown for negative grade.");
+
+        System.out.println("Action: Attempting to assign grade greater than 100.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            system.assignGrade("101", "CS101", 150.0);
+        });
+        System.out.println("Verified: Exception was thrown for grade > 100.");
+
+        System.out.println("<<< Test finished: assignGradeWithInvalidScore_ShouldThrowException");
+    }
+
+    @Test
+    @DisplayName("Should calculate course average with mixed graded and ungraded students")
+    void calculateCourseAverageWithMixedGradedStudents() {
+        System.out.println(">>> Running test: calculateCourseAverageWithMixedGradedStudents");
+
+        System.out.println("Setup: Adding multiple students and enrolling them.");
+        system.addStudent("102", "Ayşe", "Kaya");
+        system.addStudent("103", "Mehmet", "Demir");
+        system.enrollStudentToCourse("101", "CS101");
+        system.enrollStudentToCourse("102", "CS101");
+        system.enrollStudentToCourse("103", "CS101");
+
+        System.out.println("Action: Assigning grades to only some students.");
+        system.assignGrade("101", "CS101", 90.0);
+        system.assignGrade("102", "CS101", 70.0);
+        // Student 103 remains ungraded
+
+        double actualAverage = system.calculateCourseAverage("CS101");
+        System.out.println("Verification: Average calculated only for graded students. Expected: 80.0");
+        assertEquals(80.0, actualAverage, 0.01);
+        System.out.println("<<< Test finished: calculateCourseAverageWithMixedGradedStudents");
+    }
+
+    @Test
+    @DisplayName("Should handle getStudentById with valid and invalid IDs")
+    void getStudentByIdTests() {
+        System.out.println(">>> Running test: getStudentByIdTests");
+
+        System.out.println("Verification: Getting existing student by ID.");
+        Student student = system.getStudentById("101");
+        assertNotNull(student);
+        assertEquals("101", student.getId());
+        assertEquals("Ahmet", student.getName());
+        assertEquals("Yılmaz", student.getSurname());
+
+        System.out.println("Verification: Getting non-existent student returns null.");
+        Student nonExistentStudent = system.getStudentById("999");
+        assertNull(nonExistentStudent);
+
+        System.out.println("<<< Test finished: getStudentByIdTests");
+    }
+
+    @Test
+    @DisplayName("Should handle getStudentCount correctly")
+    void getStudentCountTests() {
+        System.out.println(">>> Running test: getStudentCountTests");
+
+        System.out.println("Verification: Initial student count is 1.");
+        assertEquals(1, system.getStudentCount());
+
+        System.out.println("Action: Adding more students.");
+        system.addStudent("102", "Ayşe", "Kaya");
+        system.addStudent("103", "Mehmet", "Demir");
+
+        System.out.println("Verification: Student count is now 3.");
+        assertEquals(3, system.getStudentCount());
+
+        System.out.println("<<< Test finished: getStudentCountTests");
+    }
+
+    @Test
+    @DisplayName("Should handle convertScoreToLetterGrade with edge cases")
+    void convertScoreToLetterGradeEdgeCases() {
+        System.out.println(">>> Running test: convertScoreToLetterGradeEdgeCases");
+
+        System.out.println("Verification: Testing edge case scores.");
+        assertEquals("A", StudentGradingSystem.convertScoreToLetterGrade(90.0));
+        assertEquals("B", StudentGradingSystem.convertScoreToLetterGrade(80.0));
+        assertEquals("C", StudentGradingSystem.convertScoreToLetterGrade(70.0));
+        assertEquals("D", StudentGradingSystem.convertScoreToLetterGrade(60.0));
+        assertEquals("F", StudentGradingSystem.convertScoreToLetterGrade(59.9));
+
+        System.out.println("Action: Testing invalid scores.");
+        assertThrows(IllegalArgumentException.class, () -> {
+            StudentGradingSystem.convertScoreToLetterGrade(-1.0);
+        });
+        assertThrows(IllegalArgumentException.class, () -> {
+            StudentGradingSystem.convertScoreToLetterGrade(101.0);
+        });
+
+        System.out.println("<<< Test finished: convertScoreToLetterGradeEdgeCases");
+    }
+
+    @Test
+    @DisplayName("Should handle multiple courses with different averages")
+    void handleMultipleCoursesWithDifferentAverages() {
+        System.out.println(">>> Running test: handleMultipleCoursesWithDifferentAverages");
+
+        System.out.println("Setup: Adding second course and students.");
+        system.addCourse("MATH101", "Calculus I");
+        system.addStudent("102", "Ayşe", "Kaya");
+        system.enrollStudentToCourse("101", "CS101");
+        system.enrollStudentToCourse("102", "CS101");
+        system.enrollStudentToCourse("101", "MATH101");
+        system.enrollStudentToCourse("102", "MATH101");
+
+        System.out.println("Action: Assigning different grades for different courses.");
+        system.assignGrade("101", "CS101", 90.0);
+        system.assignGrade("102", "CS101", 70.0);
+        system.assignGrade("101", "MATH101", 85.0);
+        system.assignGrade("102", "MATH101", 95.0);
+
+        System.out.println("Verification: Each course has correct average.");
+        assertEquals(80.0, system.calculateCourseAverage("CS101"), 0.01);
+        assertEquals(90.0, system.calculateCourseAverage("MATH101"), 0.01);
+
+        System.out.println("<<< Test finished: handleMultipleCoursesWithDifferentAverages");
+    }
+
+    @Test
+    @DisplayName("Should handle system initialization and empty state")
+    void systemInitializationAndEmptyState() {
+        System.out.println(">>> Running test: systemInitializationAndEmptyState");
+
+        System.out.println("Action: Creating new empty system.");
+        StudentGradingSystem emptySystem = new StudentGradingSystem();
+
+        System.out.println("Verification: Empty system has correct initial state.");
+        assertEquals(0, emptySystem.getStudentCount());
+        assertNull(emptySystem.getStudentById("101"));
+
+        System.out.println("<<< Test finished: systemInitializationAndEmptyState");
+    }
+
+    @Test
+    @DisplayName("Should handle concurrent student addition")
+    void handleConcurrentStudentAddition() {
+        System.out.println(">>> Running test: handleConcurrentStudentAddition");
+
+        System.out.println("Action: Adding many students rapidly.");
+        for (int i = 200; i < 250; i++) {
+            system.addStudent(String.valueOf(i), "Student" + i, "Surname" + i);
+        }
+
+        System.out.println("Verification: All students are added correctly.");
+        assertEquals(51, system.getStudentCount()); // 1 initial + 50 new
+        assertNotNull(system.getStudentById("249"));
+        assertNull(system.getStudentById("300"));
+
+        System.out.println("<<< Test finished: handleConcurrentStudentAddition");
+    }
+
+    @Test
+    @DisplayName("Should handle course average calculation for non-existent course")
+    void calculateCourseAverageForNonExistentCourse() {
+        System.out.println(">>> Running test: calculateCourseAverageForNonExistentCourse");
+
+        System.out.println("Action: Calculating average for non-existent course.");
+        double average = system.calculateCourseAverage("NONEXISTENT");
+
+        System.out.println("Verification: Returns 0.0 for non-existent course.");
+        assertEquals(0.0, average);
+
+        System.out.println("<<< Test finished: calculateCourseAverageForNonExistentCourse");
     }
 }

@@ -8,8 +8,9 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 @Suite
 @SuiteDisplayName("Complete Test Suite for Grading System")
 @SelectClasses({
-        GradingSystemTest.class,
-        StudentAndCourseTest.class
+                GradingSystemTest.class,
+                StudentTest.class,
+                CourseTest.class
 })
 public class AllTestsSuite {
 }
