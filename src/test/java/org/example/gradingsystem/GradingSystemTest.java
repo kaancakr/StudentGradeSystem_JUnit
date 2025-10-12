@@ -8,11 +8,51 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Comprehensive Test Suite for StudentGradingSystem Core Functionality
+ * 
+ * This test class validates all core functionality of the StudentGradingSystem including:
+ * - Student and course management
+ * - Enrollment and grade assignment
+ * - Average calculations and grade conversions
+ * - Data validation and error handling
+ * - Performance and edge cases
+ * - Integration between system components
+ * 
+ * Test Categories:
+ * 1. Basic Operations: Student/course creation, enrollment, grade assignment
+ * 2. Calculations: Course averages, grade conversions, statistical operations
+ * 3. Data Validation: Input validation, duplicate prevention, error handling
+ * 4. Edge Cases: Boundary conditions, empty states, invalid inputs
+ * 5. Performance: Large datasets, concurrent operations, timeout validation
+ * 6. Integration: System-wide functionality, component interactions
+ * 
+ * Test Setup:
+ * - Each test method uses @BeforeEach to initialize a clean system state
+ * - Tests are designed to be independent and can run in any order
+ * - Comprehensive logging provides detailed test execution information
+ * 
+ * @author Test Suite
+ * @version 1.0
+ */
 @DisplayName("Grading System Core Functionality Tests")
 class GradingSystemTest {
 
     private StudentGradingSystem system;
 
+    /**
+     * Test Setup Method
+     * 
+     * Purpose: Initializes a clean StudentGradingSystem instance before each test
+     * to ensure test isolation and consistent starting conditions.
+     * 
+     * Setup Actions:
+     * 1. Create a new StudentGradingSystem instance
+     * 2. Add a default student (ID: 101, Name: Ahmet Yılmaz)
+     * 3. Add a default course (Code: CS101, Name: Introduction to Programming)
+     * 
+     * This ensures each test starts with a known, consistent state.
+     */
     @BeforeEach
     void setUp() {
         System.out.println("--- @BeforeEach: Setting up new test ---");
@@ -22,6 +62,19 @@ class GradingSystemTest {
         System.out.println("Setup complete. System has 1 student and 1 course.");
     }
 
+    /**
+     * Test Case: Student Enrollment
+     * 
+     * Purpose: Verifies that students can be successfully enrolled in courses
+     * through the grading system.
+     * 
+     * Test Steps:
+     * 1. Use the pre-configured student (101) and course (CS101)
+     * 2. Enroll the student in the course
+     * 3. Verify enrollment completes without errors
+     * 
+     * Expected Result: Student successfully enrolled in course
+     */
     @Test
     @DisplayName("Should enroll a student to a course successfully")
     void enrollStudentToCourse() {
@@ -65,6 +118,21 @@ class GradingSystemTest {
         System.out.println("<<< Test finished: enrollNonExistentStudentOrCourse_ShouldThrowException");
     }
 
+    /**
+     * Test Case: Course Average Calculation
+     * 
+     * Purpose: Verifies that the system correctly calculates the average grade
+     * for all students enrolled in a specific course.
+     * 
+     * Test Steps:
+     * 1. Add a second student to the system
+     * 2. Enroll both students in the same course
+     * 3. Assign different grades to each student (90.0 and 70.0)
+     * 4. Calculate the course average
+     * 5. Verify the average is correct (80.0)
+     * 
+     * Expected Result: Course average calculated as 80.0 (average of 90.0 and 70.0)
+     */
     @Test
     @DisplayName("Should calculate course average correctly")
     void calculateCourseAverage() {
@@ -97,6 +165,21 @@ class GradingSystemTest {
         System.out.println("<<< Test finished: calculateCourseAverage_NoGradedStudents_ShouldReturnZero");
     }
 
+    /**
+     * Parameterized Test Case: Grade Conversion
+     * 
+     * Purpose: Verifies that numeric scores are correctly converted to letter grades
+     * using multiple test cases to ensure comprehensive coverage of the grading scale.
+     * 
+     * Test Data:
+     * - 95.0, 100.0 → A grade
+     * - 85.0 → B grade  
+     * - 75.0 → C grade
+     * - 65.0 → D grade
+     * - 55.0, 0.0 → F grade
+     * 
+     * Expected Result: Each numeric score converts to the correct letter grade
+     */
     @ParameterizedTest(name = "Run {index}: Score {0} should be grade {1}")
     @CsvSource({
             "95.0, A", "85.0, B", "75.0, C", "65.0, D", "55.0, F", "100.0, A", "0.0, F"
