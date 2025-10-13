@@ -4,9 +4,47 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Comprehensive Test Suite for Student Model Class
+ * 
+ * This test class validates all functionality of the Student entity including:
+ * - Student creation and initialization
+ * - Grade assignment and management
+ * - Data validation and error handling
+ * - Edge cases and boundary conditions
+ * - Input validation and null handling
+ * 
+ * Test Categories:
+ * 1. Basic Functionality: Student creation, property access, information retrieval
+ * 2. Grade Management: Grade assignment, retrieval, updates, multiple courses
+ * 3. Data Validation: Input validation, null handling, invalid grade ranges
+ * 4. Edge Cases: Boundary values (0.0, 100.0), invalid inputs, null values
+ * 5. Integration: Student-grade relationship management
+ * 
+ * Each test method follows the Arrange-Act-Assert pattern with detailed logging
+ * for better debugging and test result interpretation.
+ * 
+ * @author Test Suite
+ * @version 1.0
+ */
 @DisplayName("Tests for Student Model")
 class StudentTest {
 
+    /**
+     * Test Case: Basic Student Creation
+     * 
+     * Purpose: Verifies that a Student object can be created with valid parameters
+     * and that all initial properties are set correctly.
+     * 
+     * Test Steps:
+     * 1. Create a new Student with ID, name, and surname
+     * 2. Verify student ID is set correctly
+     * 3. Verify student name is set correctly
+     * 4. Verify student surname is set correctly
+     * 5. Verify initial grades map is empty
+     * 
+     * Expected Result: Student object created with correct properties and empty grades map
+     */
     @Test
     @DisplayName("Student should be created with correct properties")
     void studentCreation() {
@@ -22,6 +60,20 @@ class StudentTest {
         System.out.println("<<< Test finished: studentCreation");
     }
 
+    /**
+     * Test Case: Grade Assignment
+     * 
+     * Purpose: Verifies that grades can be successfully assigned to students
+     * for specific courses and that the grades are properly stored and retrievable.
+     * 
+     * Test Steps:
+     * 1. Create a new Student
+     * 2. Add a grade for a specific course
+     * 3. Retrieve the grade to verify it was stored correctly
+     * 4. Verify the grades map is no longer empty
+     * 
+     * Expected Result: Grade successfully assigned and retrievable from student
+     */
     @Test
     @DisplayName("Should add grade to student correctly")
     void addGradeToStudent() {
@@ -38,6 +90,20 @@ class StudentTest {
         System.out.println("<<< Test finished: addGradeToStudent");
     }
 
+    /**
+     * Test Case: Invalid Grade Validation
+     * 
+     * Purpose: Verifies that the Student class properly validates grade inputs
+     * and throws appropriate exceptions for invalid grade values.
+     * 
+     * Test Steps:
+     * 1. Create a new Student
+     * 2. Attempt to add a negative grade (should throw exception)
+     * 3. Attempt to add a grade greater than 100 (should throw exception)
+     * 4. Verify both attempts throw IllegalArgumentException
+     * 
+     * Expected Result: IllegalArgumentException thrown for both invalid grade values
+     */
     @Test
     @DisplayName("Should throw exception for invalid grade")
     void addInvalidGrade_ShouldThrowException() {

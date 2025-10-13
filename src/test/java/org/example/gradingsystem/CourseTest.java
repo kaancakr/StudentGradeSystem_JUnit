@@ -4,9 +4,46 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Comprehensive Test Suite for Course Model Class
+ * 
+ * This test class validates all functionality of the Course entity including:
+ * - Course creation and initialization
+ * - Student enrollment management
+ * - Data integrity and validation
+ * - Edge cases and error handling
+ * - Performance with large datasets
+ * 
+ * Test Categories:
+ * 1. Basic Functionality: Course creation, property access
+ * 2. Student Management: Enrollment, duplicate prevention, order maintenance
+ * 3. Data Validation: Input validation, null handling
+ * 4. Edge Cases: Empty strings, large datasets, boundary conditions
+ * 5. Integration: Course-student relationship management
+ * 
+ * Each test method follows the Arrange-Act-Assert pattern with detailed logging
+ * for better debugging and test result interpretation.
+ * 
+ * @author Test Suite
+ * @version 1.0
+ */
 @DisplayName("Tests for Course Model")
 class CourseTest {
 
+    /**
+     * Test Case: Basic Course Creation
+     * 
+     * Purpose: Verifies that a Course object can be created with valid parameters
+     * and that all initial properties are set correctly.
+     * 
+     * Test Steps:
+     * 1. Create a new Course with course code and name
+     * 2. Verify course code is set correctly
+     * 3. Verify course name is set correctly
+     * 4. Verify initial student enrollment list is empty
+     * 
+     * Expected Result: Course object created with correct properties and empty enrollment list
+     */
     @Test
     @DisplayName("Course should be created correctly")
     void courseCreation() {
@@ -21,6 +58,20 @@ class CourseTest {
         System.out.println("<<< Test finished: courseCreation");
     }
 
+    /**
+     * Test Case: Student Enrollment
+     * 
+     * Purpose: Verifies that students can be successfully enrolled in a course
+     * and that the enrollment is properly tracked.
+     * 
+     * Test Steps:
+     * 1. Create a new Course and Student
+     * 2. Add the student to the course
+     * 3. Verify student count increased to 1
+     * 4. Verify the student is in the enrollment list
+     * 
+     * Expected Result: Student successfully enrolled and tracked in course
+     */
     @Test
     @DisplayName("Should add student to course enrollment list")
     void addStudentToCourse() {
@@ -38,6 +89,20 @@ class CourseTest {
         System.out.println("<<< Test finished: addStudentToCourse");
     }
 
+    /**
+     * Test Case: Duplicate Student Prevention
+     * 
+     * Purpose: Verifies that the same student cannot be enrolled in a course
+     * multiple times, ensuring data integrity and preventing duplicate enrollments.
+     * 
+     * Test Steps:
+     * 1. Create a Course and Student
+     * 2. Add the student to the course (first time)
+     * 3. Attempt to add the same student again (second time)
+     * 4. Verify student count remains 1 (no duplication)
+     * 
+     * Expected Result: Student count remains 1, preventing duplicate enrollments
+     */
     @Test
     @DisplayName("Should not add the same student twice to a course")
     void addSameStudentTwice_ShouldNotDuplicate() {
