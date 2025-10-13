@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * 
  * Each test method follows the Arrange-Act-Assert pattern with detailed logging
  * for better debugging and test result interpretation.
- * 
- * @author Test Suite
+ *
+ * @author Eren Kaan Çakır, Berke Beyazbenli
  * @version 1.0
  */
 @DisplayName("Tests for Student Model")

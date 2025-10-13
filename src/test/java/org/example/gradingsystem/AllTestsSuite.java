@@ -20,8 +20,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
  *   course creation, student enrollment, and course management
  * 
  * Usage: Run this suite to execute all tests in the grading system
- * 
- * @author Test Suite
+ *
+ * @author Eren Kaan Çakır, Berke Beyazbenli
  * @version 1.0
  */
 @Suite
@@ -33,5 +33,4 @@ import org.junit.platform.suite.api.SuiteDisplayName;
 })
 public class AllTestsSuite {
     // This class serves as a test suite container
-    // No implementation needed - annotations handle the test execution
 }

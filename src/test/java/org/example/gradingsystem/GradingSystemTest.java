@@ -31,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.*;
  * - Each test method uses @BeforeEach to initialize a clean system state
  * - Tests are designed to be independent and can run in any order
  * - Comprehensive logging provides detailed test execution information
- * 
- * @author Test Suite
+ *
+ * @author Eren Kaan Çakır, Berke Beyazbenli
  * @version 1.0
  */
 @DisplayName("Grading System Core Functionality Tests")

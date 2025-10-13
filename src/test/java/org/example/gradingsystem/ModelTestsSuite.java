@@ -30,8 +30,8 @@ import org.junit.platform.suite.api.SuiteDisplayName;
  * - Validating data model behavior
  * - Testing entity relationships
  * - Verifying model constraints and validations
- * 
- * @author Test Suite
+ *
+ * @author Eren Kaan Çakır, Berke Beyazbenli
  * @version 1.0
  */
 @Suite
