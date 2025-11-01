@@ -56,13 +56,13 @@
                     <target>11</target>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M7</version>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -82,6 +82,31 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.0</version>
+                <configuration>
+                    <targetClasses>
+                        <param>org.example.gradingsystem.StudentGradingSystem</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>org.example.gradingsystem.CalculateAverageBasisPathTests</param>
+                        <param>org.example.gradingsystem.AssignGradeDecisionTableTests</param>
+                        <param>org.example.gradingsystem.CalculateAverageMutantTest</param>
+                    </targetTests>
+                    <reportsDirectory>${project.build.directory}/pit-reports</reportsDirectory>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
         </plugins>
     </build>
 </project>
