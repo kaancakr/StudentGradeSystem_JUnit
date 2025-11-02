@@ -70,4 +70,51 @@ public class StudentGradingSystem {
         if (score >= 60) return "D";
         return "F";
     }
+
+    // 🧮 NEW METHOD 1: Basis Path Testing target
+    public String evaluateStudentPerformance(String studentId, String courseCode) {
+        Student student = students.get(studentId);
+        Course course = courses.get(courseCode);
+
+        if (student == null || course == null) {
+            return "Invalid";
+        }
+
+        double grade = student.getGrade(courseCode);
+        if (grade == -1.0) {
+            return "No Grade";
+        }
+
+        if (grade >= 85) {
+            return "Excellent";
+        } else if (grade >= 70) {
+            return "Satisfactory";
+        } else if (grade >= 50) {
+            return "Pass";
+        } else {
+            return "Fail";
+        }
+    }
+
+    // ⚖️ NEW METHOD 2: Decision Table Testing target
+    public String determineExamEligibility(String studentId, String courseCode, boolean attendanceComplete, boolean hasDisciplinePenalty) {
+        Student student = students.get(studentId);
+        Course course = courses.get(courseCode);
+
+        if (student == null || course == null) {
+            throw new IllegalArgumentException("Student or Course not found.");
+        }
+
+        // Decision Table Conditions:
+        // C1: attendanceComplete?
+        // C2: hasDisciplinePenalty?
+        // C3: hasAtLeastOneGrade?
+        boolean hasGrade = student.getGrade(courseCode) != -1.0;
+
+        // Rules
+        if (!attendanceComplete) return "Not Eligible";
+        if (hasDisciplinePenalty) return "Not Eligible";
+        if (!hasGrade) return "Conditional";
+        return "Eligible";
+    }
 }
