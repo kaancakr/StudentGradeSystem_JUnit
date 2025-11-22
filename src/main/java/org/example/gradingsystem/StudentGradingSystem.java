@@ -22,6 +22,9 @@ public class StudentGradingSystem {
         students.put(id, new Student(id, name, surname));
     }
 
+    public Course getCourse(String courseCode) {
+        return courses.get(courseCode);
+    }
     public void addCourse(String code, String name) {
         if (courses.containsKey(code)) {
             throw new IllegalArgumentException("Course with this code already exists.");
