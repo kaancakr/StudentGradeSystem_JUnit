@@ -8,6 +8,10 @@ public class StudentGradingSystem {
         return students.size();
     }
 
+    public Map<String, Course> getCourses() {
+        return courses;
+    }
+
     public Student getStudentById(String studentId) {
         return students.get(studentId);
     }

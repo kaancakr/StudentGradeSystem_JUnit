@@ -7,9 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Basis Path Testing for convertScoreToLetterGrade() method
- * 
  * Cyclomatic Complexity: 6
- * 
  * Decision Points:
  * 1. if (score > 100 || score < 0) → throw exception
  * 2. if (score >= 90) → return "A"
@@ -17,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * 4. if (score >= 70) → return "C"
  * 5. if (score >= 60) → return "D"
  * 6. else → return "F"
- * 
  * Basis Paths:
  * 1. Invalid score (> 100 or < 0) → Exception
  * 2. Score < 60 → "F"

@@ -19,14 +19,14 @@ public class CalculateAverageIntegrationTests {
 
     @BeforeEach
     void setUp() {
-        // Use a Spy for the System Under Test (SUT) to control dependency retrieval
-        system = spy(new StudentGradingSystem());
-        mockCourse = mock(Course.class); // Mock the Course dependency
+        // 1. Use the real SUT object (no spy needed, bypasses Java 23 error)
+        system = new StudentGradingSystem();
 
-        // Mock Behavior 1 for SUT: Control what getCourse returns
-        when(system.getCourse(COURSE_CODE)).thenReturn(mockCourse);
-        // NOTE: You will need to add a public getCourse method to StudentGradingSystem
-        // if it's currently private or protected.
+        // 2. Mock the Course dependency
+        mockCourse = mock(Course.class);
+
+        // 3. Inject the mock Course directly into the real system's map
+        system.getCourses().put(COURSE_CODE, mockCourse);
     }
 
     // Helper Method to create a Mock Student with a specific grade behavior
