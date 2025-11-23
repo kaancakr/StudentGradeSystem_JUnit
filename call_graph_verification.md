@@ -1,5 +1,7 @@
 # Call Graph Verification
 
+cd /Users/kaancakir/IdeaProjects/StudentGradeSystem && dot -Tpng call_graph.dot -o call_graph.png && dot -Tsvg call_graph.dot -o call_graph.svg && echo "Call graph generated!"
+
 ## Verified Method Calls:
 
 1. ✅ **SGS.assignGrade() → Student.addGrade()**

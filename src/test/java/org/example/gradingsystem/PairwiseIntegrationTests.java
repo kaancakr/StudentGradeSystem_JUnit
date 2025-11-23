@@ -80,8 +80,9 @@ public class PairwiseIntegrationTests {
     @Test
     @DisplayName("TC01: SGS.assignGrade → Student.addGrade integration")
     void test01_assignGradeToStudentIntegration() {
-        // Setup: Add real student to system, inject mock student
+        // Setup: Add real student and course to system
         system.addStudent(STUDENT_ID, "Jane", "Smith");
+        system.addCourse(COURSE_CODE, COURSE_NAME);
         Student realStudent = system.getStudentById(STUDENT_ID);
         
         // Inject mock student behavior
