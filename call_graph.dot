@@ -1,0 +1,50 @@
+digraph CallGraph {
+    rankdir=TB;
+    node [shape=box, style=rounded, fontname="Arial", fontsize=10];
+    edge [fontname="Arial", fontsize=9, color=black];
+    
+    bgcolor=white;
+    
+    // Method-level interactions - Two columns
+    // Left column: StudentGradingSystem methods
+    SGS_assignGrade [label="StudentGradingSystem\nassignGrade()", fillcolor=white, style=rounded];
+    SGS_calculateCourseAverage [label="StudentGradingSystem\ncalculateCourseAverage()", fillcolor=white, style=rounded];
+    SGS_enrollStudentToCourse [label="StudentGradingSystem\nenrollStudentToCourse()", fillcolor=white, style=rounded];
+    SGS_evaluateStudentPerformance [label="StudentGradingSystem\nevaluateStudentPerformance()", fillcolor=white, style=rounded];
+    SGS_determineExamEligibility [label="StudentGradingSystem\ndetermineExamEligibility()", fillcolor=white, style=rounded];
+    SGS_addStudent [label="StudentGradingSystem\naddStudent()", fillcolor=white, style=rounded];
+    SGS_addCourse [label="StudentGradingSystem\naddCourse()", fillcolor=white, style=rounded];
+    
+    // Right column: Student and Course methods
+    Student_addGrade [label="Student\naddGrade()", fillcolor=white, style=rounded];
+    Student_getGrade [label="Student\ngetGrade()", fillcolor=white, style=rounded];
+    Student_constructor [label="Student\nconstructor", fillcolor=white, style=rounded];
+    Course_addStudent [label="Course\naddStudent()", fillcolor=white, style=rounded];
+    Course_getEnrolledStudents [label="Course\ngetEnrolledStudents()", fillcolor=white, style=rounded];
+    Course_constructor [label="Course\nconstructor", fillcolor=white, style=rounded];
+    
+    // Method call relationships (solid lines)
+    SGS_assignGrade -> Student_addGrade;
+    SGS_calculateCourseAverage -> Student_getGrade;
+    SGS_calculateCourseAverage -> Course_getEnrolledStudents;
+    SGS_enrollStudentToCourse -> Course_addStudent;
+    SGS_evaluateStudentPerformance -> Student_getGrade;
+    SGS_determineExamEligibility -> Student_getGrade;
+    SGS_addStudent -> Student_constructor;
+    SGS_addCourse -> Course_constructor;
+    
+    // Class-level relationships (bottom section)
+    StudentGradingSystem [label="StudentGradingSystem", fillcolor=white, style=rounded];
+    Student [label="Student", fillcolor=white, style=rounded];
+    Course [label="Course", fillcolor=white, style=rounded];
+    
+    // Class relationships (dashed lines)
+    StudentGradingSystem -> Student [style=dashed, label="uses"];
+    StudentGradingSystem -> Course [style=dashed, label="uses"];
+    Student -> Course [style=dashed, label="associated with"];
+    
+    // Force layout: methods on top, classes on bottom
+    {rank=same; SGS_assignGrade; SGS_calculateCourseAverage; SGS_enrollStudentToCourse; SGS_evaluateStudentPerformance; SGS_determineExamEligibility; SGS_addStudent; SGS_addCourse}
+    {rank=same; Student_addGrade; Student_getGrade; Student_constructor; Course_addStudent; Course_getEnrolledStudents; Course_constructor}
+    {rank=sink; StudentGradingSystem; Student; Course}
+}

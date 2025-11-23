@@ -13,6 +13,10 @@ public class Course {
         this.courseName = courseName;
     }
 
+    public int getStudentCount() {
+        return enrolledStudents.size();
+    }
+
     // Getters
     public String getCourseCode() {
         return courseCode;
